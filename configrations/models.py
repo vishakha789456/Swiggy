@@ -3,6 +3,8 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class MyUserManager(BaseUserManager):
+    mobile=models.IntegerField(max_length=4,null=True,blank=True)
+    otp=models.IntegerField(max_length=4,null=True,blank=True)
     def create_user(self, email, date_of_birth = None, password=None):
         """
         Creates and saves a User with the given email, date of
@@ -46,6 +48,17 @@ class MyUser(AbstractBaseUser):
     date_of_birth = models.DateField(null=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    opt_verify = models.BooleanField(default=False)
+    opt_expired=models.DateTimeField(null=True,blank=True)
+    
+    USER_TYPES=(
+        [1,'Customer'],
+        [2,'Driver'],
+        [3,'Restaurants'],)
+
+    USER_TYPES=models.IntegerField(
+        choices=USER_TYPES,default=1
+    )
 
     objects = MyUserManager()
 
